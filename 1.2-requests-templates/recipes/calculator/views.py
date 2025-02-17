@@ -28,3 +28,17 @@ DATA = {
 #     'ингредиент2': количество2,
 #   }
 # }
+def recipes_view(request, dish):
+    servings = int(request.GET.get("servings", 1))
+    try:
+        rec_dir = DATA[dish]
+        recipe = {}
+        for key in rec_dir:
+            recipe[key] = rec_dir[key] * servings
+        context = {'recipe': recipe}
+        return render(request, 'calculator/index.html', context)
+    except KeyError:
+        print('Такого блюда нет')
+
+
+
